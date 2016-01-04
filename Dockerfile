@@ -14,16 +14,15 @@ WORKDIR /tmp
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-RUN apt-get update && apt-get install wget libwxbase3.0-0 libwxgtk3.0-0 -y
+RUN apt-get update && apt-get install wget libwxbase3.0-0 libwxgtk3.0-0 unzip -y
 
-RUN cd /tmp && wget https://packages.erlang-solutions.com/erlang/esl-erlang/FLAVOUR_1_general/esl-erlang_18.2-1~ubuntu~precise_amd64.deb
-
-RUN dpkg -i /tmp/esl-erlang_18.2-1~ubuntu~precise_amd64.deb
-
-RUN apt-get install unzip
+RUN cd /tmp && wget https://packages.erlang-solutions.com/erlang/esl-erlang/FLAVOUR_1_general/esl-erlang_18.2-1~ubuntu~precise_amd64.deb && \
+    dpkg -i /tmp/esl-erlang_18.2-1~ubuntu~precise_amd64.deb && \
+    rm /tmp/esl-erlang_18.2-1~ubuntu~precise_amd64.deb
 
 # Download and Install Specific Version of Elixir
 WORKDIR /elixir
+
 RUN wget -q https://github.com/elixir-lang/elixir/releases/download/v1.2.0/Precompiled.zip && \
     unzip Precompiled.zip && \
     rm -f Precompiled.zip && \
